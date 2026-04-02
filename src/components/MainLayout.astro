@@ -3,11 +3,13 @@ export const prerender = false
 
 import { player_ready } from "../js/server/mpv.js"
 import { addTrackToQueue } from "../js/server/radio.js"
+import Track from "../js/server/track.js"
 
 await player_ready
 
-addTrackToQueue("https://rr2---sn-x2pm-f5fz.googlevideo.com/videoplayback?expire=1775178499&ei=o77OaZXHM53mi9oPpK3emA8&ip=185.93.240.161&id=o-AJU1S25k9raZac6gOf7H-kKJ1xI7fibRL_xQ8m2GzpeF&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=456&met=1775156899%2C&mh=7Q&mm=31%2C29&mn=sn-x2pm-f5fz%2Csn-f5f7lnly&ms=au%2Crdu&mv=m&mvi=2&pcm2cms=yes&pl=24&rms=au%2Cau&initcwndbps=1795000&bui=AUUZDGK3lZeO-eT3wfasMU_4MQxbi0jrifJy9x9H0TiRMjKi6NXjZYm7irhaA-5nR4RSW2pOxJOnr0Qs&spc=jlWavcTmRb2Gx_IXVKQmIoRA-NG_SuvNvpQZ-q9tcSlLusO7c2_umiaQaOMDWiKE&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=47600&dur=4.421&lmt=1753011651285847&mt=1775156258&fvip=1&keepalive=yes&fexp=51565115%2C51565681&c=ANDROID&txp=5432534&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AHEqNM4wRAIgTkgUjnovRxCbJxPiHkbRnZE5kOTxRWXWcRqN5fnzb6MCIGQiib7vDCFy9aQ0of6zD07JadMpIWMffWEMJCdtO5kl&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIhAIUba0BGik33jDHmqB8MEbM0afbTCxEQJQNiO8CLvbaeAiA_arvmX5qxwnpegZ3jJBPgtTDrNMkJt5iUrJPXVYQpiQ%3D%3D")
-addTrackToQueue("https://195.150.20.243/RMFMAXXX48")
+addTrackToQueue(new Track.Youtube("https://www.youtube.com/watch?v=iDLmYZ5HqgM")).then(() => {
+  addTrackToQueue(new Track.Raw("RMFMAXX", "https://195.150.20.243/RMFMAXXX48"))
+})
 ---
 
 <html lang="en">

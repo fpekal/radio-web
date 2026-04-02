@@ -3,10 +3,10 @@ import { player, player_ready } from './mpv.js'
 let queue = []
 let playing = false
 
-export function startFromQueue() {
+export async function startFromQueue() {
   if (queue.length > 0) {
-    console.log(`Starting music from queue: ${queue[0]}`)
-    player.loadfile(queue.shift())
+    console.log(`Starting music from queue: ${await queue[0].getName()}`)
+    player.loadfile(await queue.shift().getUrl())
 	playing = true
   }
 }
@@ -17,8 +17,8 @@ export function startFromQueueIfNotPlaying() {
   }
 }
 
-export function addTrackToQueue(track) {
-  console.log(`Adding track to queue: ${track}`)
+export async function addTrackToQueue(track) {
+  console.log(`Adding track to queue: ${await track.getName()}`)
   queue.push(track)
 
   startFromQueueIfNotPlaying()
