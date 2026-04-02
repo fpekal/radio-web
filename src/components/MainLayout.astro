@@ -1,10 +1,8 @@
 ---
 export const prerender = false
 
-import { player_ready, player } from "../js/server/mpv.js"
-import { addTrackToQueue, init } from "../js/server/radio.js"
-
-init()
+import { player_ready } from "../js/server/mpv.js"
+import { addTrackToQueue } from "../js/server/radio.js"
 
 await player_ready
 

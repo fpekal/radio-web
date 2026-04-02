@@ -43,7 +43,7 @@ export function resume() {
   player.play()
 }
 
-export async function init() {
+async function init() {
   await player_ready
 
   player.onEndFile(() => {
@@ -52,3 +52,5 @@ export async function init() {
 	startFromQueueIfNotPlaying()
   })
 }
+
+init()
