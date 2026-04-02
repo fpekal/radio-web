@@ -29,11 +29,11 @@ class Youtube extends Track {
   }
 
   async parseURL() {
-    exec(`yt-dlp -x -g ${this.url}`, {}, (error, stdout, stderr) => {
-	  this.real_url = stdout
+    exec(`yt-dlp --print "%(title)s" ${this.url}`, {}, (error, stdout, stderr) => {
+	  this.name = stdout.split("\n")[0]
 
-	  exec(`yt-dlp --print "%(title)s" ${this.url}`, {}, (error, stdout, stderr) => {
-		this.name = stdout
+	  exec(`yt-dlp -x -g ${this.url}`, {}, (error, stdout, stderr) => {
+		this.real_url = stdout.split("\n")[0]
 
 		this.parsing_resolve()
 	  })

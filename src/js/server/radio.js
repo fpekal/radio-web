@@ -6,14 +6,16 @@ let playing = false
 export async function startFromQueue() {
   if (queue.length > 0) {
     console.log(`Starting music from queue: ${await queue[0].getName()}`)
-    player.loadfile(await queue.shift().getUrl())
+	const track = queue.shift()
+	const url = await track.getUrl()
+    player.loadfile(url)
 	playing = true
   }
 }
 
-export function startFromQueueIfNotPlaying() {
+export async function startFromQueueIfNotPlaying() {
   if (!playing) {
-    startFromQueue()
+    await startFromQueue()
   }
 }
 
@@ -21,7 +23,7 @@ export async function addTrackToQueue(track) {
   console.log(`Adding track to queue: ${await track.getName()}`)
   queue.push(track)
 
-  startFromQueueIfNotPlaying()
+  await startFromQueueIfNotPlaying()
 }
 
 export function clearQueue() {
