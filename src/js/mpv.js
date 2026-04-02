@@ -1,9 +1,9 @@
 import { spawn, exec } from 'child_process';
 import { MPVClient } from 'mpv-ipc'
 
-let player
-let player_promise_resolve
-let player_promise = new Promise((resolve) => {player_promise_resolve = resolve})
+export let player
+let player_ready_resolve
+export let player_ready = new Promise((resolve) => {player_ready_resolve = resolve})
 
 function exit_handler() {
   player.quit()
@@ -26,7 +26,7 @@ function init() {
 	  console.log(name, args)
 	})
 
-	player_promise_resolve()
+	player_ready_resolve()
   }, 1000)
 
   process.on('exit', exit_handler)
@@ -34,12 +34,6 @@ function init() {
   process.on('SIGTERM', exit_handler)
 
   console.log('MPV initialized')
-}
-
-export async function play(url) {
-  await player_promise
-
-  player.loadfile(url)
 }
 
 init()

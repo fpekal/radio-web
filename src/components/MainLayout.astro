@@ -1,9 +1,11 @@
 ---
 export const prerender = false
 
-import { play } from "../js/mpv.js"
+import { player_ready, player } from "../js/mpv.js"
 
-play("https://195.150.20.243/RMFMAXXX48")
+await player_ready
+
+await player.loadfile("https://195.150.20.243/RMFMAXXX48")
 ---
 
 <html lang="en">
