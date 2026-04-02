@@ -6,6 +6,7 @@ let queue = []
 let playing_from_queue = false
 let playing_background_track = false
 
+let current_queue_track = null
 let background_track = new Track.Raw("RMFMAXX", "https://195.150.20.243/RMFMAXXX48")
 
 let ignore_next_endfile = false
@@ -14,9 +15,12 @@ export async function startFromQueue() {
   if (playing_from_queue) return
 
   if (queue.length > 0) {
-	ignore_next_endfile = true
+	if (playing_background_track) {
+	  ignore_next_endfile = true
+	}
     console.log(`Starting music from queue: ${await queue[0].getName()}`)
 	const track = queue.shift()
+	current_queue_track = track
 	const url = await track.getUrl()
     player.loadfile(url)
 	playing_from_queue = true
@@ -88,6 +92,12 @@ async function init() {
   })
 
   await startPlaying()
+}
+
+export function getPlayingTrack() {
+  if (playing_from_queue) return current_queue_track
+  if (playing_background_track) return background_track
+  return null
 }
 
 await init()
