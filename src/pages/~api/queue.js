@@ -21,17 +21,12 @@ export async function POST({ params, request }) {
 
   const success_response = new Response(null, { status: 200 })
 
-  switch (json.track_type) {
-    case "raw":
-      await addTrackToQueue(new Track.Raw(json.name, json.url))
-	  return success_response
-      break
-
-    case "youtube":
-      await addTrackToQueue(new Track.Youtube(json.url))
-	  return success_response
-      break
+  const track = Track.createTrack(json)
+  if (track == null) {
+	return new Response(null, { status: 400 })
   }
 
-  return new Response(null, { status: 400 })
+  await addTrackToQueue(track)
+
+  return success_response
 }

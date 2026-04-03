@@ -51,4 +51,18 @@ class Youtube extends Track {
   }
 }
 
-export default { Track, Raw, Youtube }
+function createTrack(json) {
+  switch (json.track_type) {
+    case "raw":
+      return new Raw(json.name, json.url)
+      break
+
+    case "youtube":
+      return new Youtube(json.url)
+      break
+  }
+
+  return null
+}
+
+export default { Track, Raw, Youtube, createTrack }

@@ -121,6 +121,20 @@ async function init() {
   await startPlaying()
 }
 
+export function getBackgroundTrack() {
+  return background_track
+}
+
+export function setBackgroundTrack(track) {
+  background_track = track
+
+  if (playing_background_track) {
+	playing_background_track = false
+	ignore_next_endfile = true
+	startBackgroundTrack()
+  }
+}
+
 export function getPlayingTrack() {
   if (playing_from_queue) return current_queue_track
   if (playing_background_track) return background_track
