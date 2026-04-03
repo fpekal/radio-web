@@ -1,5 +1,7 @@
 export const prerender = false
 
+import { getPlayingTrack } from '../../js/server/radio.js'
+
 export async function GET() {
   const track = getPlayingTrack()
 
