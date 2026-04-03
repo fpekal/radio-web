@@ -100,4 +100,8 @@ export function getPlayingTrack() {
   return null
 }
 
+export function getQueue() {
+  return queue
+}
+
 await init()
