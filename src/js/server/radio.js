@@ -96,6 +96,14 @@ export function skip() {
   }
 }
 
+export async function getVolume() {
+  return await player.getVolume()
+}
+
+export async function setVolume(volume) {
+  await player.setVolume(volume)
+}
+
 async function init() {
   await player_ready
 
