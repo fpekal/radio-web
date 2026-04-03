@@ -11,9 +11,7 @@ let background_track = new Track.Raw("RMFMAXX", "https://195.150.20.243/RMFMAXXX
 
 let ignore_next_endfile = false
 
-export async function startFromQueue() {
-  if (playing_from_queue) return
-
+async function nextFromQueueUnconditionally() {
   if (queue.length > 0) {
 	if (playing_background_track) {
 	  ignore_next_endfile = true
@@ -25,6 +23,14 @@ export async function startFromQueue() {
     player.loadfile(url)
 	playing_from_queue = true
 	playing_background_track = false
+  }
+}
+
+export async function startFromQueue() {
+  if (playing_from_queue) return
+
+  if (queue.length > 0) {
+	await nextFromQueueUnconditionally()
   }
   else {
 	await startBackgroundTrack()
@@ -75,6 +81,19 @@ export function pause() {
 export function resume() {
   console.log("Music resumed")
   player.play()
+}
+
+export function skip() {
+  console.log("Music skipped")
+  ignore_next_endfile = true
+  if (playing_from_queue) {
+	if (queue.length > 0) {
+	  nextFromQueueUnconditionally()
+	}
+	else {
+	  startBackgroundTrack()
+	}
+  }
 }
 
 async function init() {
