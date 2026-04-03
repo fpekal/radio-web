@@ -1,0 +1,26 @@
+---
+import { useState, useEffect } from 'astro/jsx-runtime';
+---
+
+<div id="player-root">
+  <div id="now-playing">
+    <img id="now-playing-art" src="" alt="Now playing art" />
+    <div id="now-playing-meta">
+      <div id="now-playing-name"></div>
+      <audio id="player-audio" controls></audio>
+    </div>
+  </div>
+
+  <div id="controls">
+    <button id="btn-pause">Pause</button>
+    <button id="btn-resume">Resume</button>
+    <button id="btn-skip">Skip</button>
+    <input id="volume" type="range" min="0" max="1" step="0.01" />
+  </div>
+
+  <form id="queue-form">
+    <input name="url" placeholder="Track URL" required />
+    <input name="name" placeholder="Track name" />
+    <button type="submit">Add to queue</button>
+  </form>
+</div>
