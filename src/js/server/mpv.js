@@ -14,7 +14,7 @@ function exit_handler() {
 function init() {
   let runtime_dir = process.env.XDG_RUNTIME_DIR
 
-  spawn('mpv', ['--no-video', '--idle', '--input-ipc-server=' + runtime_dir + '/radioweb-mpv.socket'],
+  spawn('mpv', ['--af=loudnorm=I=-14:LRA=1:tp=-1:linear=false:dual_mono=true', '--no-video', '--idle', '--input-ipc-server=' + runtime_dir + '/radioweb-mpv.socket'],
 	{
 	  detached: true,
 	  stdio: "ignore"
