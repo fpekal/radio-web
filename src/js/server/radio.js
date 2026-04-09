@@ -64,13 +64,25 @@ export async function addTrackToQueue(track) {
   await startFromQueue()
 }
 
+export async function removeTrackFromQueue(index) {
+  console.log(`Removing track from queue: ${await queue[index].getName()}`)
+  queue.splice(index, 1)
+}
+
+export async function moveTrackInQueue(index, new_position) {
+  console.log(`Moving track in queue: ${await queue[index].getName()}`)
+  const track = queue[index]
+  queue.splice(index, 1)
+  queue.splice(new_position, 0, track)
+}
+
 export function clearQueue() {
   console.log("Clearing queue")
   queue = []
 }
 
 export function isPlayingFromQueue() {
-  return playingFromQueue
+  return playing_from_queue
 }
 
 export function pause() {
@@ -81,6 +93,10 @@ export function pause() {
 export function resume() {
   console.log("Music resumed")
   player.play()
+}
+
+export function seek(progress) {
+  player.seek(progress, 'absolute-percent')
 }
 
 export function skip() {
@@ -139,6 +155,24 @@ export function getPlayingTrack() {
   if (playing_from_queue) return current_queue_track
   if (playing_background_track) return background_track
   return null
+}
+
+export async function getProgressPercentage() {
+  try {
+	return await player.getProperty('percent-pos')
+  }
+  catch (e) {
+	return 0
+  }
+}
+
+export async function getDuration() {
+  try {
+	return await player.getProperty('duration')
+  }
+  catch (e) {
+	return 0
+  }
 }
 
 export function getQueue() {

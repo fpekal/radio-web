@@ -1,19 +1,25 @@
 export const prerender = false
 
-import { getPlayingTrack, addTrackToQueue, getQueue } from '../../js/server/radio.js'
 import Track from '../../js/server/track.js'
+
+import { addTrackToQueue, getQueue } from '../../js/server/radio.js'
 
 export async function GET() {
   const queue = getQueue()
 
-  const tracks = queue.map(async (track) => {
-	return {
-	  name: await track.getName(),
-	  url: await track.getUrl(),
-	}
+  const resolved = await Promise.all(
+    queue.map(async (track) => ({
+      name: await track.getName(),
+      url: await track.getUrl(),
+    }))
+  )
+
+  const tracks = {}
+  resolved.forEach((t, i) => {
+    tracks[String(i)] = t
   })
 
-  return new Response(JSON.stringify(await Promise.all(tracks)))
+  return new Response(JSON.stringify(tracks))
 }
 
 export async function POST({ params, request }) {
