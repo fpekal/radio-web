@@ -64,6 +64,13 @@ export async function addTrackToQueue(track) {
   await startFromQueue()
 }
 
+export async function addTracksToQueue(tracks) {
+  console.log(`Adding ${tracks.length} tracks to queue`)
+  queue.push(...tracks)
+
+  await startFromQueue()
+}
+
 export async function removeTrackFromQueue(index) {
   console.log(`Removing track from queue: ${await queue[index].getName()}`)
   queue.splice(index, 1)

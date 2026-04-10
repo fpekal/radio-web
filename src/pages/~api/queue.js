@@ -2,7 +2,7 @@ export const prerender = false
 
 import Track from '../../js/server/track.js'
 
-import { addTrackToQueue, getQueue } from '../../js/server/radio.js'
+import { addTracksToQueue, getQueue } from '../../js/server/radio.js'
 
 export async function GET() {
   const queue = getQueue()
@@ -27,12 +27,12 @@ export async function POST({ params, request }) {
 
   const success_response = new Response(null, { status: 200 })
 
-  const track = Track.createTrack(json)
-  if (track == null) {
+  const tracks = await Track.createTracks(json)
+  if (tracks == []) {
 	return new Response(null, { status: 400 })
   }
 
-  await addTrackToQueue(track)
+  await addTracksToQueue(tracks)
 
   return success_response
 }

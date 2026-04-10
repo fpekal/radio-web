@@ -10,7 +10,7 @@ export async function GET() {
 
 export async function POST({ request }) {
   const json = await request.json()
-  const track = Track.createTrack(json)
+  const track = Track.createTrack(json)[0]
 
   if (track === null) {
 	return new Response(null, { status: 400 })

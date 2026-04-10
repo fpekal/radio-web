@@ -51,18 +51,75 @@ class Youtube extends Track {
   }
 }
 
-function createTrack(json) {
+class YoutubePlaylistEntry extends Track {
+  constructor(name, url) {
+	super()
+	this.url = url
+	this.name = name
+  }
+
+  async getName() {
+	return this.name
+  }
+
+  async getUrl() {
+	return this.url
+  }
+}
+
+async function youtubeFromPlaylist(url) {
+  let urls = []
+  let names = []
+
+  let promise_url_resolve
+  let promise_url = new Promise((resolve) => { promise_url_resolve = resolve })
+  let promise_names_resolve
+  let promise_names = new Promise((resolve) => { promise_names_resolve = resolve })
+
+  exec(`yt-dlp -x -g ${url}`, {}, (error, stdout, stderr) => {
+	const output = stdout.split("\n")
+
+	urls = output
+
+	promise_url_resolve()
+  })
+
+  exec(`yt-dlp --print "%(title)s" ${url}`, {}, (error, stdout, stderr) => {
+	const output = stdout.split("\n")
+
+	names = output
+
+	promise_names_resolve()
+  })
+
+  await promise_url
+  await promise_names
+
+  let playlist = []
+
+  for (let i = 0; i < urls.length; i++) {
+	playlist.push(new YoutubePlaylistEntry(names[i], urls[i]))
+  }
+
+  return playlist
+}
+
+async function createTracks(json) {
   switch (json.track_type) {
     case "raw":
-      return new Raw(json.name, json.url)
+      return [new Raw(json.name, json.url)]
       break
 
     case "youtube":
-      return new Youtube(json.url)
+      return [new Youtube(json.url)]
       break
+	
+	case "youtube_playlist":
+	  return await youtubeFromPlaylist(json.url)
+	  break
   }
 
-  return null
+  return []
 }
 
-export default { Track, Raw, Youtube, createTrack }
+export default { Track, Raw, Youtube, createTracks }
