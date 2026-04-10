@@ -101,6 +101,9 @@ async function youtubeFromPlaylist(url) {
 	playlist.push(new YoutubePlaylistEntry(names[i], urls[i]))
   }
 
+  // Remove last track
+  playlist.pop()
+
   return playlist
 }
 
