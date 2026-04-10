@@ -95,6 +95,10 @@ export function resume() {
   player.play()
 }
 
+export async function isPlaying() {
+  return !(await player.getPause())
+}
+
 export function seek(progress) {
   player.seek(progress, 'absolute-percent')
 }
