@@ -32,8 +32,12 @@ class Youtube extends Track {
     exec(`yt-dlp --print "%(title)s" ${this.url}`, {}, (error, stdout, stderr) => {
 	  this.name = stdout.split("\n")[0]
 
+	  console.log(`Parsed name: ${this.name}`)
+
 	  exec(`yt-dlp -x -g ${this.url}`, {}, (error, stdout, stderr) => {
 		this.real_url = stdout.split("\n")[0]
+
+		console.log(`Parsed url: ${this.real_url}`)
 
 		this.parsing_resolve()
 	  })

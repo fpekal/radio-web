@@ -10,12 +10,12 @@ export async function GET() {
 
 export async function POST({ request }) {
   const json = await request.json()
-  const track = Track.createTrack(json)[0]
+  const track = (await Track.createTracks(json))[0]
 
-  if (track === null) {
+  if (track === null || track === undefined) {
 	return new Response(null, { status: 400 })
   }
 
-  setBackgroundTrack(track)
+  await setBackgroundTrack(track)
   return new Response(null, { status: 200 })
 }
